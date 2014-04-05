@@ -161,24 +161,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201404051153357_Init.cs" />
-    <Compile Include="Migrations\201404051153357_Init.Designer.cs">
-      <DependentUpon>201404051153357_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201404051202311_Init1.cs" />
-    <Compile Include="Migrations\201404051202311_Init1.Designer.cs">
-      <DependentUpon>201404051202311_Init1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201404051211374_Init2.cs" />
-    <Compile Include="Migrations\201404051211374_Init2.Designer.cs">
-      <DependentUpon>201404051211374_Init2.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\GroupDb.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -230,6 +220,11 @@
     <Content Include="Views\Account\Delete.cshtml" />
     <Content Include="Views\Account\UserRoles.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SelectRoleEditorViewModel.cshtml" />
+    <Content Include="Views\Group\Create.cshtml" />
+    <Content Include="Views\Group\Delete.cshtml" />
+    <Content Include="Views\Group\Details.cshtml" />
+    <Content Include="Views\Group\Edit.cshtml" />
+    <Content Include="Views\Group\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -240,17 +235,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201404051153357_Init.resx">
-      <DependentUpon>201404051153357_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201404051202311_Init1.resx">
-      <DependentUpon>201404051202311_Init1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201404051211374_Init2.resx">
-      <DependentUpon>201404051211374_Init2.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,7 @@ namespace MobileTracker.Models
 
         [Required]
         public string Email { get; set; }
-
+        public GroupDb GroupDb { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -23,6 +24,8 @@ namespace MobileTracker.Models
             : base("DefaultConnection")
         {
         }
+
+        public System.Data.Entity.DbSet<MobileTracker.Models.GroupDb> GroupDbs { get; set; }
     }
 
     public class IdentityManager

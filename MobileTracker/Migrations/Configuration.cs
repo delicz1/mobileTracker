@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using MobileTracker.Models;
 
 namespace MobileTracker.Migrations
@@ -23,6 +24,15 @@ namespace MobileTracker.Migrations
 
             bool success;
             this.CreateRoles();
+            var db = new ApplicationDbContext();
+
+            var group = new GroupDb()
+            {
+                Name = "Admin Group",
+                Description = "Skupina administratora"
+            };
+            db.GroupDbs.Add(group);
+            db.SaveChanges();
 
             var idManager = new IdentityManager();
             var user = new ApplicationUser()
@@ -30,13 +40,23 @@ namespace MobileTracker.Migrations
                 UserName = "admin",
                 FirstName = "Dalibor",
                 LastName = "Špringer",
-                Email = "springer@Example.com"
+                Email = "springer@Example.com",
+                GroupDb = group
             };
 
             idManager.CreateUser(user, "123456");
             idManager.AddUserToRole(user.Id, "Admin");
             idManager.AddUserToRole(user.Id, "GroupAdmin");
             idManager.AddUserToRole(user.Id, "User");
+
+            group = new GroupDb()
+            {
+                Name = "Basic Group",
+                Description = "Zakldni skupina"
+            };
+            db.GroupDbs.Add(group);
+            db.SaveChanges();
+
 
             for (int i = 0; i < 4; i++)
             {
@@ -46,6 +66,7 @@ namespace MobileTracker.Migrations
                     FirstName = string.Format("FirstName{0}", i.ToString()),
                     LastName = string.Format("LastName{0}", i.ToString()),
                     Email = string.Format("Email{0}@Example.com", i.ToString()),
+                    GroupDb = group
                 };
                 idManager.CreateUser(user, string.Format("Password{0}", i.ToString()));
                 idManager.AddUserToRole(user.Id, "Admin");
