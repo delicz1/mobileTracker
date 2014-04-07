@@ -10,107 +10,111 @@ using MobileTracker.Models;
 
 namespace MobileTracker.Controllers
 {
-    public class GroupController : Controller
+    public class EventTypeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: /Group/
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
-            return View(db.Groups.ToList());
+            return View(db.EventTypes.ToList());
         }
 
-        // GET: /Group/Details/5
+        // GET: /EventType/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group groupdb = db.Groups.Find(id);
-            if (groupdb == null)
+            EventType eventtype = db.EventTypes.Find(id);
+            if (eventtype == null)
             {
                 return HttpNotFound();
             }
-            return View(groupdb);
+            return View(eventtype);
         }
-
-        // GET: /Group/Create
+        [Authorize(Roles = "Admin")]
+        // GET: /EventType/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: /Group/Create
+        // POST: /EventType/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="GroupId,Name,Description")] Group groupdb)
+        [Authorize(Roles = "Admin")]
+        public ActionResult Create([Bind(Include="EventTypeId,Name,Icon")] EventType eventtype)
         {
             if (ModelState.IsValid)
             {
-                db.Groups.Add(groupdb);
+                db.EventTypes.Add(eventtype);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(groupdb);
+            return View(eventtype);
         }
 
-        // GET: /Group/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group groupdb = db.Groups.Find(id);
-            if (groupdb == null)
+            EventType eventtype = db.EventTypes.Find(id);
+            if (eventtype == null)
             {
                 return HttpNotFound();
             }
-            return View(groupdb);
+            return View(eventtype);
         }
 
-        // POST: /Group/Edit/5
+        // POST: /EventType/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="GroupId,Name,Description")] Group groupdb)
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit([Bind(Include="EventTypeId,Name,Icon")] EventType eventtype)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(groupdb).State = EntityState.Modified;
+                db.Entry(eventtype).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(groupdb);
+            return View(eventtype);
         }
 
-        // GET: /Group/Delete/5
+        // GET: /EventType/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group groupdb = db.Groups.Find(id);
-            if (groupdb == null)
+            EventType eventtype = db.EventTypes.Find(id);
+            if (eventtype == null)
             {
                 return HttpNotFound();
             }
-            return View(groupdb);
+            return View(eventtype);
         }
 
-        // POST: /Group/Delete/5
+        // POST: /EventType/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Group groupdb = db.Groups.Find(id);
-            db.Groups.Remove(groupdb);
+            EventType eventtype = db.EventTypes.Find(id);
+            db.EventTypes.Remove(eventtype);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

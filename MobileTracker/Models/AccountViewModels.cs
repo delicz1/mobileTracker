@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.Mvc;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 
@@ -19,7 +21,7 @@ namespace MobileTracker.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Nové heslo znovu")]
-        [Compare("NewPassword", ErrorMessage = "Nově zadaná hesla nejsou stejná.")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "Nově zadaná hesla nejsou stejná.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -38,6 +40,8 @@ namespace MobileTracker.Models
         public bool RememberMe { get; set; }
     }
 
+
+
     public class RegisterViewModel
     {
         [Required]
@@ -52,7 +56,7 @@ namespace MobileTracker.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Heslo znovu")]
-        [Compare("Password", ErrorMessage = "Nově zadaná hesla nejsou stejná.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Nově zadaná hesla nejsou stejná.")]
         public string ConfirmPassword { get; set; }
 
         [Display(Name= "Jméno")]
@@ -65,6 +69,10 @@ namespace MobileTracker.Models
         [Display(Name = "E-mail")]
         public string Email { get; set; }
 
+        public IEnumerable<SelectListItem> Groups { get; set; }
+        public string GroupName { get; set; }
+        public int GroupId { get; set; }
+
         // Return a pre-poulated instance of AppliationUser:
         public ApplicationUser GetUser()
         {
@@ -74,6 +82,7 @@ namespace MobileTracker.Models
                 FirstName = this.FirstName,
                 LastName = this.LastName,
                 Email = this.Email,
+                GroupId = this.GroupId
             };
             return user;
         }

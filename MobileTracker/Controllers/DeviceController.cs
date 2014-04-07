@@ -6,111 +6,117 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using MobileTracker.Models;
 
 namespace MobileTracker.Controllers
 {
-    public class GroupController : Controller
+    public class DeviceController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: /Group/
+        // GET: /Device/
         public ActionResult Index()
         {
-            return View(db.Groups.ToList());
+            var devices = db.Devices.Include(d => d.Group);
+            return View(devices.ToList());
         }
 
-        // GET: /Group/Details/5
+        // GET: /Device/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group groupdb = db.Groups.Find(id);
-            if (groupdb == null)
+            Device device = db.Devices.Find(id);
+            if (device == null)
             {
                 return HttpNotFound();
             }
-            return View(groupdb);
+            return View(device);
         }
 
-        // GET: /Group/Create
+        // GET: /Device/Create
         public ActionResult Create()
         {
+            ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "Name");
             return View();
         }
 
-        // POST: /Group/Create
+        // POST: /Device/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="GroupId,Name,Description")] Group groupdb)
+        public ActionResult Create([Bind(Include="DeviceId,Name,Imei,PhoneNumber,GroupId")] Device device)
         {
             if (ModelState.IsValid)
             {
-                db.Groups.Add(groupdb);
+                db.Devices.Add(device);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(groupdb);
+            ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "Name", device.GroupId);
+            return View(device);
         }
 
-        // GET: /Group/Edit/5
+        // GET: /Device/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group groupdb = db.Groups.Find(id);
-            if (groupdb == null)
+            Device device = db.Devices.Find(id);
+            if (device == null)
             {
                 return HttpNotFound();
             }
-            return View(groupdb);
+            ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "Name", device.GroupId);
+            return View(device);
         }
 
-        // POST: /Group/Edit/5
+        // POST: /Device/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="GroupId,Name,Description")] Group groupdb)
+        public ActionResult Edit([Bind(Include="DeviceId,Name,Imei,PhoneNumber,GroupId")] Device device)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(groupdb).State = EntityState.Modified;
+                db.Entry(device).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(groupdb);
+            ViewBag.GroupId = new SelectList(db.Groups, "GroupId", "Name", device.GroupId);
+            return View(device);
         }
 
-        // GET: /Group/Delete/5
+        // GET: /Device/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group groupdb = db.Groups.Find(id);
-            if (groupdb == null)
+            Device device = db.Devices.Find(id);
+            if (device == null)
             {
                 return HttpNotFound();
             }
-            return View(groupdb);
+            return View(device);
         }
 
-        // POST: /Group/Delete/5
+        // POST: /Device/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Group groupdb = db.Groups.Find(id);
-            db.Groups.Remove(groupdb);
+            Device device = db.Devices.Find(id);
+            db.Devices.Remove(device);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -122,6 +128,15 @@ namespace MobileTracker.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [Authorize]
+        public ActionResult IndexUserView()
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var group = user.Group;
+            var devices = group.Devices;
+            return View(devices.ToList());
         }
     }
 }

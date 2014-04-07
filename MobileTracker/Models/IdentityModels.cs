@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using MobileTracker.Controllers;
 
 namespace MobileTracker.Models
 {
@@ -15,21 +16,15 @@ namespace MobileTracker.Models
 
         [Required]
         public string Email { get; set; }
-        public GroupDb GroupDb { get; set; }
-    }
-
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public ApplicationDbContext()
-            : base("DefaultConnection")
-        {
-        }
-
-        public System.Data.Entity.DbSet<MobileTracker.Models.GroupDb> GroupDbs { get; set; }
+        public int GroupId { get; set; }
+        public virtual Group Group { get; set; }
     }
 
     public class IdentityManager
     {
+        public const string RoleAdmin = "Admin";
+        public const string RoleGroupAdmin = "GroupAdmin";
+        public const string RoleUser = "User";
         public bool RoleExists(string name)
         {
             var rm = new RoleManager<IdentityRole>(

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System.Web.UI.WebControls;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using MobileTracker.Models;
@@ -59,12 +60,53 @@ namespace MobileTracker.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
+        public ActionResult CreateUserGroup(Group group)
+        {
+            var model = new RegisterViewModel();
+            model.GroupName = group.Name;
+            model.GroupId = group.GroupId;
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateUserGroup(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await UserManager.CreateAsync(model.GetUser(), model.Password);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("UserRoles", "Account", new { id = model.UserName });
+                }
+                else
+                {
+                    AddErrors(result);
+                }
+            }
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
         //
         // GET: /Account/Register
         [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
-            return View();
+            var items = new HashSet<SelectListItem>();
+            var db = new ApplicationDbContext();
+            var model = new RegisterViewModel();
+            foreach (var group in db.Groups)
+            {
+                var item = new SelectListItem();
+                item.Value = group.GroupId.ToString();
+                item.Text = group.Name;
+                items.Add(item);
+            }
+            model.Groups = items;
+            return View(model);
         }
 
         //
@@ -81,12 +123,13 @@ namespace MobileTracker.Controllers
                     UserName = model.UserName,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    Email = model.Email
+                    Email = model.Email,
+                    GroupId = model.GroupId
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInAsync(user, isPersistent: false);
+//                    await SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -94,7 +137,16 @@ namespace MobileTracker.Controllers
                     AddErrors(result);
                 }
             }
-
+            var items = new HashSet<SelectListItem>();
+            var db = new ApplicationDbContext();
+            foreach (var group in db.Groups)
+            {
+                var item = new SelectListItem();
+                item.Value = group.GroupId.ToString();
+                item.Text = group.Name;
+                items.Add(item);
+            }
+            model.Groups = items;
             // If we got this far, something failed, redisplay form
             return View(model);
         }

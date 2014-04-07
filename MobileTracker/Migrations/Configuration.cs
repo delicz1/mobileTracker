@@ -1,5 +1,7 @@
+using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using MobileTracker.Models;
+using Group = MobileTracker.Models.Group;
 
 namespace MobileTracker.Migrations
 {
@@ -13,6 +15,7 @@ namespace MobileTracker.Migrations
     internal sealed class Configuration : DbMigrationsConfiguration<MobileTracker.Models.ApplicationDbContext>
     {
 
+        private ApplicationDbContext db = new ApplicationDbContext();
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
@@ -21,17 +24,15 @@ namespace MobileTracker.Migrations
 
         protected override void Seed(MobileTracker.Models.ApplicationDbContext context)
         {
-
-            bool success;
             this.CreateRoles();
-            var db = new ApplicationDbContext();
+            this.CreateEventTypes();
 
-            var group = new GroupDb()
+            var group = new Group()
             {
                 Name = "Admin Group",
                 Description = "Skupina administratora"
             };
-            db.GroupDbs.Add(group);
+            db.Groups.Add(group);
             db.SaveChanges();
 
             var idManager = new IdentityManager();
@@ -41,20 +42,20 @@ namespace MobileTracker.Migrations
                 FirstName = "Dalibor",
                 LastName = "Špringer",
                 Email = "springer@Example.com",
-                GroupDb = group
+                GroupId = group.GroupId
             };
 
             idManager.CreateUser(user, "123456");
-            idManager.AddUserToRole(user.Id, "Admin");
-            idManager.AddUserToRole(user.Id, "GroupAdmin");
-            idManager.AddUserToRole(user.Id, "User");
+            idManager.AddUserToRole(user.Id, IdentityManager.RoleAdmin);
+            idManager.AddUserToRole(user.Id, IdentityManager.RoleGroupAdmin);
+            idManager.AddUserToRole(user.Id, IdentityManager.RoleUser);
 
-            group = new GroupDb()
+            group = new Group()
             {
                 Name = "Basic Group",
                 Description = "Zakldni skupina"
             };
-            db.GroupDbs.Add(group);
+            db.Groups.Add(group);
             db.SaveChanges();
 
 
@@ -66,11 +67,11 @@ namespace MobileTracker.Migrations
                     FirstName = string.Format("FirstName{0}", i.ToString()),
                     LastName = string.Format("LastName{0}", i.ToString()),
                     Email = string.Format("Email{0}@Example.com", i.ToString()),
-                    GroupDb = group
+                    GroupId = group.GroupId
                 };
                 idManager.CreateUser(user, string.Format("Password{0}", i.ToString()));
-                idManager.AddUserToRole(user.Id, "Admin");
-                idManager.AddUserToRole(user.Id, "User");
+                idManager.AddUserToRole(user.Id, IdentityManager.RoleGroupAdmin);
+                idManager.AddUserToRole(user.Id, IdentityManager.RoleUser);
             }
             //  This method will be called after migrating to the latest version.
 
@@ -92,18 +93,27 @@ namespace MobileTracker.Migrations
             var idManager = new IdentityManager();
 
             // Add the Description as an argument:
-            success = idManager.CreateRole("Admin");
+            success = idManager.CreateRole(IdentityManager.RoleAdmin);
             if (!success == true) return success;
 
             // Add the Description as an argument:
-            success = idManager.CreateRole("GroupAdmin");
+            success = idManager.CreateRole(IdentityManager.RoleGroupAdmin);
             if (!success == true) return success;
 
             // Add the Description as an argument:
-            success = idManager.CreateRole("User");
+            success = idManager.CreateRole(IdentityManager.RoleUser);
             if (!success) return success;
 
             return success;
+        }
+
+        bool CreateEventTypes()
+        {
+            db.EventTypes.Add(new EventType() { Name = "Zapnutí zaøízení", Icon = "on.png"});
+            db.EventTypes.Add(new EventType() { Name = "Vypnutí zaøízení", Icon = "off.png"});
+            db.EventTypes.Add(new EventType() { Name = "Stav baterie", Icon = "battery.png"});
+            db.EventTypes.Add(new EventType() { Name = "Stav signálu", Icon = "signal.png" });
+            return db.SaveChanges() == 4;
         }
     }
 }

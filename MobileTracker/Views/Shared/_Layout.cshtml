@@ -23,18 +23,29 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("O projektu", "About", "Home")</li>
-                    <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
                     @if (Request.IsAuthenticated)
                     {
+                        <li>@Html.ActionLink("Zařízení", "IndexUserView", "Device")</li>
                         if (User.IsInRole("Admin"))
                         {
                             <li>
-                                @Html.ActionLink("Skupiny", "Index", "Group");
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Přehledy - administrace<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Skupiny", "Index", "Group")</li>
+                                    <li>@Html.ActionLink("Uživatelé", "Index", "Account")</li>
+                                    <li>@Html.ActionLink("Zařízení", "Index", "Device")</li>
+                                    <li>@Html.ActionLink("Typy událostí", "Index", "EventType")</li>
+                                </ul>
                             </li>
                         }
-                    }          
-                    <li>@Html.ActionLink("Admin", "Index", "Account")</li>
+                    }
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ostatní<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("O projektu", "About", "Home")</li>
+                            <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+                        </ul>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

@@ -1,5 +1,5 @@
 ﻿@using MobileTracker.Models
-@model MobileTracker.Models.GroupDb
+@model MobileTracker.Models.Group
 
 @{
     ViewBag.Title = "Details";
@@ -8,7 +8,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>GroupDb</h4>
+    <h4>Group</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -31,7 +31,7 @@
 </div>
 
 <p>
-    @Html.ActionLink("Create New", "Register", "Account")
+    @Html.ActionLink("Create New", "CreateUserGroup", "Account", Model, null)
 </p>
 <table class="table">
     <tr>
@@ -51,7 +51,7 @@
     </tr>
 
     @foreach (var item in Model.ApplicationUsers) {
-        <tr>@item.FirstName
+        <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
@@ -65,15 +65,15 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.UserName }) |
-                @Html.ActionLink("Details", "UserRoles", "Account", new { id = item.UserName }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.UserName })
+                @Html.ActionLink("Edit", "Edit", "Account", new { id = item.UserName }, null) |
+                @Html.ActionLink("Details", "UserRoles", "Account", new { id = item.UserName }, null) |
+                @Html.ActionLink("Delete", "Delete", "Account", new { id = item.UserName }, null)
             </td>
         </tr>
     }
 
 </table>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GroupId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
