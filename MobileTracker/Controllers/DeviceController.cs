@@ -138,5 +138,11 @@ namespace MobileTracker.Controllers
             var devices = group.Devices;
             return View(devices.ToList());
         }
+
+        public bool IsImeiExist(string imei)
+        {
+            var devices = db.Devices.Where(i => i.Imei == imei);
+            return !devices.Any();
+        }
     }
 }

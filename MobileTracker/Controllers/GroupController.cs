@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MobileTracker.Models;
+using PagedList;
+
 
 namespace MobileTracker.Controllers
 {
@@ -15,9 +17,37 @@ namespace MobileTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: /Group/
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(db.Groups.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+            var groups = from s in db.Groups select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                groups = groups.Where(i => i.Name.ToUpper().Contains(searchString.ToUpper()));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    groups = groups.OrderByDescending(s => s.Name);
+                    break;
+                default:
+                    groups = groups.OrderBy(s => s.Name);
+                    break;
+            }
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(groups.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: /Group/Details/5

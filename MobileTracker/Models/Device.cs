@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace MobileTracker.Models
 {
@@ -13,6 +14,7 @@ namespace MobileTracker.Models
         public string Name { get; set; }
 
         [Required]
+        [Remote("IsImeiExist", "Device", ErrorMessage = "Zařízení s tímto Imei již v systému existuje.")]
         public string Imei { get; set; }
 
         public string PhoneNumber { get; set; }

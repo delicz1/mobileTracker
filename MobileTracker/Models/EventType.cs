@@ -7,6 +7,10 @@ namespace MobileTracker.Models
 {
     public class EventType
     {
+        public const int ON = 1;
+        public const int OFF = 2;
+
+
         public int EventTypeId { get; set; }
         public string Name { get; set; }
 

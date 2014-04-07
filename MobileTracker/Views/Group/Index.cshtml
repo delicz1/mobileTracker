@@ -1,21 +1,30 @@
-﻿@model IEnumerable<MobileTracker.Models.Group>
-
+﻿@*@model IEnumerable<MobileTracker.Models.Group>*@
+@model PagedList.IPagedList<MobileTracker.Models.Group>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Skupiny";
 }
 
-<h2>Index</h2>
+<h2>Skupiny</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Vytvořit skupinu", "Create")
 </p>
+@using (Html.BeginForm("Index", "Group", FormMethod.Get))
+{
+    <p>
+        Najít skupinu: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Vyhledat" />
+    </p>
+}
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.ActionLink("Jméno skupiny", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            Popis
         </th>
         <th></th>
     </tr>
@@ -29,11 +38,16 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.GroupId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.GroupId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.GroupId })
+            @Html.ActionLink("Editovat", "Edit", new { id=item.GroupId }) |
+            @Html.ActionLink("Detail", "Details", new { id=item.GroupId }) |
+            @Html.ActionLink("Smazat", "Delete", new { id=item.GroupId })
         </td>
     </tr>
 }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

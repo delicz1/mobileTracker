@@ -109,8 +109,8 @@ namespace MobileTracker.Migrations
 
         bool CreateEventTypes()
         {
-            db.EventTypes.Add(new EventType() { Name = "Zapnutí zaøízení", Icon = "on.png"});
-            db.EventTypes.Add(new EventType() { Name = "Vypnutí zaøízení", Icon = "off.png"});
+            db.EventTypes.Add(new EventType() { EventTypeId = EventType.ON, Name = "Zapnutí zaøízení", Icon = "on.png"});
+            db.EventTypes.Add(new EventType() { EventTypeId = EventType.OFF, Name = "Vypnutí zaøízení", Icon = "off.png" });
             db.EventTypes.Add(new EventType() { Name = "Stav baterie", Icon = "battery.png"});
             db.EventTypes.Add(new EventType() { Name = "Stav signálu", Icon = "signal.png" });
             return db.SaveChanges() == 4;
