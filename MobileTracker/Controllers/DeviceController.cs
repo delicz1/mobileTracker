@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MobileTracker.Models;
@@ -139,10 +135,9 @@ namespace MobileTracker.Controllers
             return View(devices.ToList());
         }
 
-        public bool IsImeiExist(string imei)
+        public JsonResult IsImeiAvailable(string imei)
         {
-            var devices = db.Devices.Where(i => i.Imei == imei);
-            return !devices.Any();
+            return Json(!db.Devices.Any(i => i.Imei == imei), JsonRequestBehavior.AllowGet);
         }
     }
 }

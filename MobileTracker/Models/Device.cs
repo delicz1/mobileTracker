@@ -14,11 +14,12 @@ namespace MobileTracker.Models
         public string Name { get; set; }
 
         [Required]
-        [Remote("IsImeiExist", "Device", ErrorMessage = "Zařízení s tímto Imei již v systému existuje.")]
+        [Remote("IsImeiAvailable", "Device", ErrorMessage = "Zařízení s tímto Imei již v systému existuje.")]
         public string Imei { get; set; }
 
         public string PhoneNumber { get; set; }
 
+        [Required]
         public int GroupId { get; set; }
 
         public virtual Group Group { get; set; }

@@ -7,7 +7,7 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("createDevice")) 
 {
     @Html.AntiForgeryToken()
     
@@ -50,7 +50,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Vytvořit" class="btn btn-default" />
             </div>
         </div>
     </div>
