@@ -15,6 +15,12 @@ namespace MobileTracker
         void DoWork();
 
         [OperationContract]
-        int WriteGps(string userName, string password, string imei, int time, float lat, float lng);
+        int WriteGps(string userName, string password, string imei, int time, double lat, double lng);
+
+        [OperationContract]
+        bool UserExist(string userName, string password);
+
+        [OperationContract]
+        bool CheckDevice(string userName, string password, string imei);
     }
 }

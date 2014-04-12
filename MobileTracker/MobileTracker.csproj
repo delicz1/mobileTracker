@@ -178,9 +178,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="IService.cs" />
-    <Compile Include="Migrations\201404102000533_Init.cs" />
-    <Compile Include="Migrations\201404102000533_Init.Designer.cs">
-      <DependentUpon>201404102000533_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201404121118247_Init.cs" />
+    <Compile Include="Migrations\201404121118247_Init.Designer.cs">
+      <DependentUpon>201404121118247_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -215,7 +215,8 @@
     <Content Include="Pictures\32\user-offline.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Properties\PublishProfiles\delicz.pubxml" />
+    <None Include="Properties\PublishProfiles\delicz - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\delicz - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -284,8 +285,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201404102000533_Init.resx">
-      <DependentUpon>201404102000533_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201404121118247_Init.resx">
+      <DependentUpon>201404121118247_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

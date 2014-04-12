@@ -11,8 +11,8 @@ namespace MobileTracker.Models
 
         public int DeviceId { get; set; }
         public int Time { get; set; }
-        public float Lat { get; set; }
-        public float Lng { get; set; }
+        public double Lat { get; set; }
+        public double Lng { get; set; }
 
         public virtual Device Device { get; set; }
     }

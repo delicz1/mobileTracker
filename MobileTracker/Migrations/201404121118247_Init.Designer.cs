@@ -13,7 +13,7 @@ namespace MobileTracker.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201404102000533_Init"; }
+            get { return "201404121118247_Init"; }
         }
         
         string IMigrationMetadata.Source

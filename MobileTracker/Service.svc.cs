@@ -7,6 +7,7 @@ using System.Text;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using MobileTracker.Models;
+using System.Threading.Tasks;
 
 namespace MobileTracker
 {
@@ -24,12 +25,36 @@ namespace MobileTracker
             db.SaveChanges();
         }
 
-        public int WriteGps(string userName, string password, string imei, int time, float lat, float lng)
+        public bool UserExist(string userName, string password)
+        {
+            var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            var task = um.FindAsync(userName, password);
+            task.Wait();
+            var user = task.Result;
+            var result = (user != null) ? true : false;
+            return result;
+        }
+
+        public bool CheckDevice(string userName, string password, string imei)
+        {
+            var db = new ApplicationDbContext();
+            var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            var task = um.FindAsync(userName, password);
+            task.Wait();
+            var user = task.Result;
+            var devices = db.Devices.Where(i => i.Imei == imei);
+            var result = (user != null && devices.Count() == 1) ? true : false;
+            return result;
+        }
+
+        public int WriteGps(string userName, string password, string imei, int time, double lat, double lng)
         {
             var result = 0;
             var db = new ApplicationDbContext();
             var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            var user = um.FindAsync(userName, password);
+            var task = um.FindAsync(userName, password);
+            task.Wait();
+            var user = task.Result;
             var devices = db.Devices.Where(i => i.Imei == imei);
 
             if (user != null && devices.Count() == 1)
