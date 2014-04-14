@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using MobileTracker.Models;
 using System.Threading.Tasks;
+using MobileTracker.Models.Db;
 
 namespace MobileTracker
 {

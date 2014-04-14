@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using MobileTracker.Models.Db;
 
 namespace MobileTracker.Models
 {
@@ -39,8 +40,6 @@ namespace MobileTracker.Models
         [Display(Name = "Zapamatovat mě?")]
         public bool RememberMe { get; set; }
     }
-
-
 
     public class RegisterViewModel
     {

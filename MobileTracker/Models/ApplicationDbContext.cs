@@ -1,5 +1,6 @@
 using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using MobileTracker.Models.Db;
 
 namespace MobileTracker.Models
 {

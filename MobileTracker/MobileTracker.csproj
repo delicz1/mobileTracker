@@ -185,13 +185,15 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
-    <Compile Include="Models\Device.cs" />
-    <Compile Include="Models\Event.cs" />
-    <Compile Include="Models\EventType.cs" />
-    <Compile Include="Models\Gps.cs" />
-    <Compile Include="Models\Group.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Db\Device.cs" />
+    <Compile Include="Models\Db\Event.cs" />
+    <Compile Include="Models\Db\EventType.cs" />
+    <Compile Include="Models\Db\Gps.cs" />
+    <Compile Include="Models\Db\Group.cs" />
+    <Compile Include="Models\Manager\IdentityManager.cs" />
+    <Compile Include="Models\Db\IdentityModels.cs" />
+    <Compile Include="Models\Db\Message.cs" />
+    <Compile Include="Models\Manager\PointDistanceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service.svc.cs">
       <DependentUpon>Service.svc</DependentUpon>
