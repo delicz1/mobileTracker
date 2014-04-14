@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.EnterpriseServices;
 using System.Linq;
 using System.Web;
+using MobileTracker.Models.Db;
 
 namespace MobileTracker.Models
 {

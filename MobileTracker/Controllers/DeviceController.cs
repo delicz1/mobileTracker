@@ -4,6 +4,7 @@ using System.Net;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MobileTracker.Models;
+using MobileTracker.Models.Db;
 
 namespace MobileTracker.Controllers
 {

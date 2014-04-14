@@ -8,49 +8,15 @@
     <title>@ViewBag.Title - MobileTracker</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript" src="/Scripts/moment-with-langs.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" /> 
+    @RenderSection("scripts", required: false)
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Mobile Tracker", "Index", "Home", null, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @if (Request.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("Zařízení", "IndexUserView", "Device")</li>
-                        if (User.IsInRole("Admin"))
-                        {
-                            <li>
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Přehledy - administrace<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("Skupiny", "Index", "Group")</li>
-                                    <li>@Html.ActionLink("Uživatelé", "Index", "Account")</li>
-                                    <li>@Html.ActionLink("Zařízení", "Index", "Device")</li>
-                                    <li>@Html.ActionLink("Typy událostí", "Index", "EventType")</li>
-                                </ul>
-                            </li>
-                        }
-                    }
-                    <li>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ostatní<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("O projektu", "About", "Home")</li>
-                            <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
-                        </ul>
-                    </li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
+    @Html.Partial("_Menu")
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -58,9 +24,5 @@
             <p>&copy; @DateTime.Now.Year - Dalibor Špringer</p>
         </footer>
     </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -1,4 +1,4 @@
-﻿@model MobileTracker.Models.Device
+﻿@model MobileTracker.Models.Db.Device
 
 @{
     ViewBag.Title = "Details";
@@ -46,5 +46,6 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.DeviceId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Zobrazit na mapě", "MapActualPosition", "Gps", new { deviceId = Model.DeviceId }, null)
 </p>
