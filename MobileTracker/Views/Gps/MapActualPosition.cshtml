@@ -1,0 +1,63 @@
+﻿@using System.Globalization
+@using MobileTracker.Models.Manager
+@model MobileTracker.Models.Gps
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript" src="/Scripts/moment-with-langs.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map-canvas {
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANF5u9RkznxMw34aUe2lTL6e6Q-PQVNIQ&sensor=true">
+    </script>
+    <script type="text/javascript">
+        var lat = parseFloat("@(Html.Raw(Model.Lat.ToString("##.000000", new CultureInfo("en-US", false).NumberFormat)))");
+        var lng = parseFloat("@(Html.Raw(Model.Lng.ToString("##.000000", new CultureInfo("en-US", false).NumberFormat)))");
+        var center = new google.maps.LatLng(lat, lng);
+        function initialize()
+        {
+            var mapOptions = {
+                center: center,
+                zoom: 15
+            };
+            var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+            var marker = new google.maps.Marker({
+                position: center,
+                map: map,
+                title: '@DateManager.ToDateTime(new DateTime(), Model.Time).ToLocalTime().ToString()'
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+        console.log(lat, lng, "@(DateTime.Now.ToString())");
+</script>
+</head>
+    <body>
+        @Html.Partial("_Menu")
+        <div style="margin-top: 50px;" id="map-canvas" />
+    </body>
+</html>
