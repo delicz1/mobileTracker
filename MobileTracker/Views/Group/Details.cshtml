@@ -2,10 +2,10 @@
 @model MobileTracker.Models.Group
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detail";
 }
 
-<h2>Details</h2>
+<h2>Detail</h2>
 
 <div>
     <h4>Group</h4>
@@ -31,7 +31,7 @@
 </div>
 
 <p>
-    @Html.ActionLink("Create New", "CreateUserGroup", "Account", Model, null)
+    @Html.ActionLink("Vytvořit", "CreateUserGroup", "Account", Model, null)
 </p>
 <table class="table">
     <tr>
@@ -65,15 +65,15 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", "Account", new { id = item.UserName }, null) |
-                @Html.ActionLink("Details", "UserRoles", "Account", new { id = item.UserName }, null) |
-                @Html.ActionLink("Delete", "Delete", "Account", new { id = item.UserName }, null)
+                @Html.ActionLink("Editovat", "Edit", "Account", new { id = item.UserName }, null) |
+                @Html.ActionLink("Detail", "UserRoles", "Account", new { id = item.UserName }, null) |
+                @Html.ActionLink("Smazat", "Delete", "Account", new { id = item.UserName }, null)
             </td>
         </tr>
     }
 
 </table>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.GroupId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Editovat", "Edit", new { id = Model.GroupId }) |
+    @Html.ActionLink("Zpět na seznam", "Index")
 </p>

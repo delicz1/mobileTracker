@@ -12,7 +12,10 @@ namespace MobileTracker.Models
         public int GroupId { get; set; }
 
         [Required]
+        [Display(Name = "Název skupiny")]
         public string Name { get; set; }
+
+        [Display(Name = "Popis")]
         public string Description { get; set; }
 
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }

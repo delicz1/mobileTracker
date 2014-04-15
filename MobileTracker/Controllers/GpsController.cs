@@ -24,12 +24,12 @@ namespace MobileTracker.Controllers
         }
 
         [Authorize(Roles = IdentityManager.RoleUser)]
-        public ActionResult MapDateInterval(int deviceId)
+        public ActionResult MapDateInterval(int deviceId, int timeFrom, int timeTo)
         {
             var gpsQuery = from g in db.Gpses select g;
-            gpsQuery = gpsQuery.Where(g => g.DeviceId.Equals(deviceId));
+            gpsQuery = gpsQuery.Where(g => g.DeviceId.Equals(deviceId) && g.Time > timeFrom && g.Time < timeTo);
             gpsQuery = gpsQuery.OrderBy(g => g.Time);
-            return View(db.EventTypes.ToList());
+            return View(gpsQuery.ToList());
         }
     }
 }

@@ -69,6 +69,7 @@ namespace MobileTracker.Models
         public string Email { get; set; }
 
         public IEnumerable<SelectListItem> Groups { get; set; }
+        [Display(Name = "Nazev skupiny")]
         public string GroupName { get; set; }
         public int GroupId { get; set; }
 
@@ -101,15 +102,15 @@ namespace MobileTracker.Models
         }
 
         [Required]
-        [Display(Name = "User Name")]
+        [Display(Name = "Uživatelské jméno")]
         public string UserName { get; set; }
 
         [Required]
-        [Display(Name = "First Name")]
+        [Display(Name = "Jméno")]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Last Name")]
+        [Display(Name = "Příjmení")]
         public string LastName { get; set; }
 
         [Required]

@@ -1,8 +1,80 @@
-﻿@model System.Collections.Generic.List<MobileTracker.Models.EventType>
+﻿@using System.Globalization
+@using Microsoft.Ajax.Utilities
+@using MobileTracker.Models
+@using MobileTracker.Models.Manager
+@model System.Collections.Generic.List<MobileTracker.Models.Gps>
 
 @{
-    ViewBag.Title = "Mapa";
-    Layout = "_Layout";
+    Layout = null;
 }
 
-<h2>title</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript" src="/Scripts/moment-with-langs.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript" src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.min.css" />
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map-canvas {
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANF5u9RkznxMw34aUe2lTL6e6Q-PQVNIQ&sensor=true">
+    </script>
+    <script type="text/javascript">
+        var center = new google.maps.LatLng(42, 19);
+
+        function initialize()
+        {
+            var mapOptions = {
+                center: center,
+                zoom: 3
+            };
+            var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+            var marker = new google.maps.Marker({
+                position: center,
+                map: map,
+                title: 'Titulek'
+            });
+            var lat, lng;
+            var flightPlanCoordinates = [
+                @foreach (var gps in Model)
+                {                    
+                    @:new google.maps.LatLng( @(gps.GetLat()), @(gps.GetLng())),
+                }
+            ];
+            var flightPath = new google.maps.Polyline({
+                path: flightPlanCoordinates,
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            flightPath.setMap(map);
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+        console.log(lat, lng, "@(DateTime.Now.ToString())");
+    </script>
+</head>
+<body>
+    @Html.Partial("_Menu")
+    <div style="margin-top: 50px;" id="map-canvas" />
+</body>
+</html>

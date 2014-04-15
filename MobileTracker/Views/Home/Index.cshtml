@@ -5,22 +5,30 @@
 <div class="jumbotron">
     <h1>Mobile Tracker</h1>
     <p class="lead">Vítejte na stráka pro trackerování Vašeho mobilního zařízení.</p>
-    <p>@Html.ActionLink("Přihlásit", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-primary btn-large" })</p>
+    @if (Request.IsAuthenticated)
+    {
+        <p>@Html.ActionLink("Seznam zařízení", "IndexUserView", "Device", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-primary btn-large" })</p>
+    }
+    else
+    {
+        <p>@Html.ActionLink("Přihlásit", "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink", @class = "btn btn-primary btn-large"})</p>
+
+    }    
 </div>
 
 <div class="row">
     <div class="col-md-4">
         <h2>Novinky v aplikaci</h2>
-        <p>
-            Už skoro funguje přihlášení
-        </p>
+        <p>Už funguje přihlášení</p>
+        <p>Trackerování Windows Phone 8</p>
+        <p>Zobrazení poslední polohy na mapě</p>
     </div>
     <div class="col-md-4">
         <p>&nbsp;</p>
     </div>
     <div class="col-md-4">
         <h2>Plánované novinky</h2>
-        <p>Trackerování Windows Phone 8</p>
+        <p>Zobrazení bodů dle časového výběru na mapě</p>
         <p>Trackerování iPhone</p>
     </div>
 </div>

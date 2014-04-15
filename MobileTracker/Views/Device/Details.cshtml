@@ -1,14 +1,13 @@
 ﻿@model MobileTracker.Models.Db.Device
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detail";
 }
 
-<h2>Details</h2>
+<h2>Zařízení</h2>
 
 <div>
-    <h4>Device</h4>
-	<hr />
+    <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Group.Name)
@@ -44,8 +43,68 @@
 
     </dl>
 </div>
+<div>
+    <hr />
+    @using (Html.BeginForm("MapDateInterval", "Gps", FormMethod.Post, new { id = "mapDateInterval" }))
+    {
+        @Html.AntiForgeryToken()
+        <h4>Zobrazit na mapě období</h4>
+        <div class="form-horizontal">
+            <hr />
+            @Html.HiddenFor(model => model.DeviceId)
+
+            <div class="form-group">
+                <div class="col-sm-6" style="height:75px;">
+                    <div class='col-md-4'>
+                        <div class="form-group">
+                            <input type="hidden" name="timeFrom" id="timeFrom" />
+                            <div class='input-group date' id='datetimepickerFrom'>
+                                <input type='text' name="timeFromString" class="form-control" onclick="$('#datetimepickerTo').show()"  />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-md-4'>
+                        <div class="form-group">
+                            <input type="hidden" name="timeTo" id="timeTo" />
+                            <div class='input-group date' id='datetimepickerTo'>
+                                <input type='text' name="timeToString" class="form-control" onclick="$('#datetimepickerTo').show()"/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="submit" value="Zobrazit" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepickerFrom').datetimepicker({ language: "cs" });
+                $('#datetimepickerTo').datetimepicker({ language: "cs" });
+                $("#datetimepickerFrom").on("dp.change", function (e) {
+                    $('#datetimepickerTo').data("DateTimePicker").setMinDate(e.date);
+                    //                    $('#timeFrom').val = $('#datetimepickerFrom').data("DateTimePicker").getDate().getTime();
+                    var date = new Date(e.date.toString());
+                    $('#timeFrom').val(date.getTime() / 1000);
+                });
+                $("#datetimepickerTo").on("dp.change", function (e) {
+                    $('#datetimepickerFrom').data("DateTimePicker").setMaxDate(e.date);
+                    var date = new Date(e.date.toString());
+                    $('#timeTo').val(date.getTime() / 1000);
+                });
+            });
+        </script>
+    }
+</div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.DeviceId }) |
-    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Editovat", "Edit", new { id = Model.DeviceId }) |
+    @Html.ActionLink("Zpět na seznam", "Index") |
     @Html.ActionLink("Zobrazit na mapě", "MapActualPosition", "Gps", new { deviceId = Model.DeviceId }, null)
 </p>

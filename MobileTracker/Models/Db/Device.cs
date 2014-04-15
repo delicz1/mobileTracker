@@ -8,17 +8,21 @@ namespace MobileTracker.Models.Db
     {
         public int DeviceId { get; set; }
         [Required]
+        [Display(Name = "Zařízení")]
         public string Name { get; set; }
 
         [Required]
         [Remote("IsImeiAvailable", "Device", ErrorMessage = "Zařízení s tímto Imei již v systému existuje.")]
         public string Imei { get; set; }
 
+        [Display(Name = "Telefonní číslo")]
         public string PhoneNumber { get; set; }
 
         [Required]
+        [Display(Name = "Id skupiny")]
         public int GroupId { get; set; }
 
+        [Display(Name = "Skupina")]
         public virtual Group Group { get; set; }
 
         public virtual ICollection<Event> Events { get; set; }

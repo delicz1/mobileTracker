@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<MobileTracker.Models.EditUserViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Přehled";
 }
 
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Register")
+    @Html.ActionLink("Vytvořit", "Register")
 </p>
 <table class="table">
     <tr>
@@ -41,9 +41,9 @@
             @Html.DisplayFor(modelItem => item.Email)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.UserName }) |
-            @Html.ActionLink("Details", "UserRoles", new { id = item.UserName }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.UserName })
+            @Html.ActionLink("Editovat", "Edit", new { id = item.UserName }) |
+            @Html.ActionLink("Detail", "UserRoles", new { id = item.UserName }) |
+            @Html.ActionLink("Smazat", "Delete", new { id = item.UserName })
         </td>
     </tr>
 }
