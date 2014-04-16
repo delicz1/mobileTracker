@@ -35,8 +35,16 @@ namespace MobileTracker.Models
         [Required]
         public int DeviceId { get; set; }
 
-        public string TimeFrom { get; set; }
-        public string TimeTo { get; set; }
+        [Required]
+        [Display(Name = "Čas od")]
+        [Range(1, int.MaxValue, ErrorMessage = "Zadejte čas od")]
+        public int TimeFrom { get; set; }
 
+        [Required]
+        [Display(Name = "Čas do")]
+        [Range(1, int.MaxValue, ErrorMessage = "Zadejte čas do")]
+        public int TimeTo { get; set; }
+
+        public Device Device { get; set; }
     }
 }

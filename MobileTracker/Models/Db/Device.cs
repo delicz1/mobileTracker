@@ -12,7 +12,7 @@ namespace MobileTracker.Models.Db
         public string Name { get; set; }
 
         [Required]
-        [Remote("IsImeiAvailable", "Device", ErrorMessage = "Zařízení s tímto Imei již v systému existuje.")]
+        [Remote("IsImeiAvailable", "Device", AdditionalFields="DeviceId", ErrorMessage = "Zařízení s tímto Imei již v systému existuje.")]
         public string Imei { get; set; }
 
         [Display(Name = "Telefonní číslo")]

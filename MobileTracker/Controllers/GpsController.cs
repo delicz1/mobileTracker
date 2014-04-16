@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -29,6 +30,14 @@ namespace MobileTracker.Controllers
             var gpsQuery = from g in db.Gpses select g;
             gpsQuery = gpsQuery.Where(g => g.DeviceId.Equals(deviceId) && g.Time > timeFrom && g.Time < timeTo);
             gpsQuery = gpsQuery.OrderBy(g => g.Time);
+            if (! gpsQuery.Any())
+            {
+                return RedirectToAction("Details", "Device", new { id = deviceId });
+            }
+            ViewData["minLat"] = gpsQuery.Min(g => g.Lat).ToString("##.000000", new CultureInfo("en-US", false).NumberFormat);
+            ViewData["minLng"] = gpsQuery.Min(g => g.Lng).ToString("##.000000", new CultureInfo("en-US", false).NumberFormat);
+            ViewData["maxLat"] = gpsQuery.Max(g => g.Lat).ToString("##.000000", new CultureInfo("en-US", false).NumberFormat);
+            ViewData["maxLng"] = gpsQuery.Max(g => g.Lng).ToString("##.000000", new CultureInfo("en-US", false).NumberFormat);
             return View(gpsQuery.ToList());
         }
     }

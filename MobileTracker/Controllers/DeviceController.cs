@@ -31,7 +31,10 @@ namespace MobileTracker.Controllers
             {
                 return HttpNotFound();
             }
-            return View(device);
+            GpsMapTimeSelect mapTimeSelect = new GpsMapTimeSelect();
+            mapTimeSelect.Device = device;
+            mapTimeSelect.DeviceId = device.DeviceId;
+            return View(mapTimeSelect);
         }
 
         // GET: /Device/Create
@@ -136,9 +139,9 @@ namespace MobileTracker.Controllers
             return View(devices.ToList());
         }
 
-        public JsonResult IsImeiAvailable(string imei)
+        public JsonResult IsImeiAvailable(string imei, int deviceId)
         {
-            return Json(!db.Devices.Any(i => i.Imei == imei), JsonRequestBehavior.AllowGet);
+            return Json(!db.Devices.Any(i => i.Imei == imei && i.DeviceId != deviceId), JsonRequestBehavior.AllowGet);
         }
     }
 }

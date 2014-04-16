@@ -1,4 +1,5 @@
-﻿@model MobileTracker.Models.Db.Device
+﻿@using MobileTracker.Models
+@model GpsMapTimeSelect
 
 @{
     ViewBag.Title = "Detail";
@@ -10,101 +11,113 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Group.Name)
+            @Html.DisplayNameFor(model => model.Device.Group.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Group.Name)
+            @Html.DisplayFor(model => model.Device.Group.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Device.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Device.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Imei)
+            @Html.DisplayNameFor(model => model.Device.Imei)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Imei)
+            @Html.DisplayFor(model => model.Device.Imei)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            @Html.DisplayNameFor(model => model.Device.PhoneNumber)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
+            @Html.DisplayFor(model => model.Device.PhoneNumber)
         </dd>
 
     </dl>
 </div>
-<div>
-    <hr />
-    @using (Html.BeginForm("MapDateInterval", "Gps", FormMethod.Post, new { id = "mapDateInterval" }))
-    {
-        @Html.AntiForgeryToken()
-        <h4>Zobrazit na mapě období</h4>
-        <div class="form-horizontal">
-            <hr />
-            @Html.HiddenFor(model => model.DeviceId)
+<hr />
+@using (Html.BeginForm("MapDateInterval", "Gps", FormMethod.Post, new { id = "mapDateInterval" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.DeviceId)
+    @Html.TextBoxFor(model => model.TimeFrom, new { @style = "visibility: hidden; height: 0; float: left; width: 0;" })
+    @Html.TextBoxFor(model => model.TimeTo, new { @style = "visibility: hidden; height: 0; float: left; width: 0;" })
+    <h4>Zobrazit na mapě období</h4>
+    <div class="form-horizontal">
+        <hr />
 
-            <div class="form-group">
-                <div class="col-sm-6" style="height:75px;">
-                    <div class='col-md-4'>
-                        <div class="form-group">
-                            <input type="hidden" name="timeFrom" id="timeFrom" />
-                            <div class='input-group date' id='datetimepickerFrom'>
-                                <input type='text' name="timeFromString" class="form-control" onclick="$('#datetimepickerTo').show()"  />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class='col-md-4'>
-                        <div class="form-group">
-                            <input type="hidden" name="timeTo" id="timeTo" />
-                            <div class='input-group date' id='datetimepickerTo'>
-                                <input type='text' name="timeToString" class="form-control" onclick="$('#datetimepickerTo').show()"/>
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <input type="submit" value="Zobrazit" class="btn btn-default" />
-                    </div>
+        <div class="form-group">
+            <div class='col-md-8'>
+                <div class="col-md-2">
+                    @Html.LabelFor(model => model.TimeFrom)
+                </div>
+                <div class='col-md-4 input-group date' id='datetimepickerFrom'>
+                    <input type='text' name="timeFromString" class="form-control" onclick="$('#datetimepickerFrom').data('DateTimePicker').show()" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <div class="col-md-4">@Html.ValidationMessageFor(model => model.TimeFrom)</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class='col-md-8'>
+                <div class='col-md-2'>
+                    @Html.LabelFor(model => model.TimeTo)
+                </div>
+                <div class='col-md-4 input-group date' id='datetimepickerTo'>
+                    <input type='text' name="timeToString" class="form-control" onclick="$('#datetimepickerTo').data('DateTimePicker').show()" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <div class='col-md-4'>
+                    @Html.ValidationMessageFor(model => model.TimeTo)
                 </div>
             </div>
         </div>
-        
+        <div class="form-group">
+            <div class='col-md-8'>
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                    <input type="submit" value="Zobrazit" class="btn btn-default" />
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
         <script type="text/javascript">
             $(function () {
                 $('#datetimepickerFrom').datetimepicker({ language: "cs" });
                 $('#datetimepickerTo').datetimepicker({ language: "cs" });
                 $("#datetimepickerFrom").on("dp.change", function (e) {
                     $('#datetimepickerTo').data("DateTimePicker").setMinDate(e.date);
-                    //                    $('#timeFrom').val = $('#datetimepickerFrom').data("DateTimePicker").getDate().getTime();
                     var date = new Date(e.date.toString());
-                    $('#timeFrom').val(date.getTime() / 1000);
+                    $('#TimeFrom').val(date.getTime() / 1000);
                 });
                 $("#datetimepickerTo").on("dp.change", function (e) {
                     $('#datetimepickerFrom').data("DateTimePicker").setMaxDate(e.date);
                     var date = new Date(e.date.toString());
-                    $('#timeTo').val(date.getTime() / 1000);
+                    $('#TimeTo').val(date.getTime() / 1000);
                 });
             });
         </script>
-    }
-</div>
+    </div>
+}
 <p>
     @Html.ActionLink("Editovat", "Edit", new { id = Model.DeviceId }) |
     @Html.ActionLink("Zpět na seznam", "Index") |
     @Html.ActionLink("Zobrazit na mapě", "MapActualPosition", "Gps", new { deviceId = Model.DeviceId }, null)
 </p>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
