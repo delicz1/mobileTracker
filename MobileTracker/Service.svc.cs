@@ -76,5 +76,20 @@ namespace MobileTracker
             }
             return result;
         }
+
+        public string DeviceJson(string userName, string password, string imei)
+        {
+            return "test data";
+        }
+
+        public test TestJson(string id)
+        {
+            return new test { testName = id };
+        }
+    }
+
+    public class test
+    {
+        public string testName { get; set; }
     }
 }
