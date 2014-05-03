@@ -48,7 +48,7 @@ namespace MobileTracker
             return result;
         }
 
-        public int WriteGps(string userName, string password, string imei, int time, double lat, double lng)
+        public int WriteGps(string userName, string password, string imei, string time, string lat, string lng)
         {
             var result = 0;
             var db = new ApplicationDbContext();
@@ -57,19 +57,22 @@ namespace MobileTracker
             task.Wait();
             var user = task.Result;
             var devices = db.Devices.Where(i => i.Imei == imei);
+            var intTime = int.Parse(time);
+            var doubleLat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
+            var doubleLng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
 
             if (user != null && devices.Count() == 1)
             {
                 var device = devices.First();
-                var gpses = db.Gpses.Where(i => i.DeviceId == device.DeviceId && i.Time == time );
+                var gpses = db.Gpses.Where(i => i.DeviceId == device.DeviceId && i.Time == intTime);
                 if (!gpses.Any())
                 {
                     db.Gpses.Add(new Gps
                     {
                         DeviceId = device.DeviceId,
-                        Time = time,
-                        Lat = lat,
-                        Lng = lng,
+                        Time = intTime,
+                        Lat = doubleLat,
+                        Lng = doubleLng,
                     });
                     result = db.SaveChanges();
                 }

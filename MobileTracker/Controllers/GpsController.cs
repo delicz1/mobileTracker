@@ -29,6 +29,7 @@ namespace MobileTracker.Controllers
             var gpsQuery = from g in db.Gpses select g;
             gpsQuery = gpsQuery.Where(g => g.DeviceId.Equals(deviceId) && g.Time > timeFrom && g.Time < timeTo);
             gpsQuery = gpsQuery.OrderBy(g => g.Time);
+            ViewData["test"] = gpsQuery.ToList().Count;
             return View(gpsQuery.ToList());
         }
     }
